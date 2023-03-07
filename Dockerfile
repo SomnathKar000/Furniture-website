@@ -8,6 +8,7 @@ RUN npm i
 RUN cd backend/
 RUN npm i
 RUN cd ..
+RUN npm uninstall nodemon
 RUN npm install nodemon --save-dev
 EXPOSE 3000
 CMD ["npm", "run", "both"]

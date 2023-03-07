@@ -1,4 +1,4 @@
-﻿# Welcome everyone this our open source furniture-website.
+﻿# Welcome everyone this our open-source furniture-website.
 ![Screenshot (123)](https://user-images.githubusercontent.com/108757431/223523858-1d5ababb-e6fc-49b5-9c73-5c640309310f.png)
 ![Screenshot (124)](https://user-images.githubusercontent.com/108757431/223523951-10998606-12ee-4c49-8aab-a6797a788db1.png)
 

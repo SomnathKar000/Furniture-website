@@ -26,9 +26,9 @@
 * npm i 
 
 
-5. Uninstall `nodemon` using the following command:
+5. Change the directory from 'backend' to previous directory:
 
-* npm uninstall nodemon 
+* cd ..
 
 
 6. Install `nodemon` again as a development dependency using the following command:

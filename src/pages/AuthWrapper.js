@@ -1,20 +1,20 @@
 import React from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+import { useProductsContext } from "../context/products_context";
 import styled from "styled-components";
 
 const AuthWrapper = ({ children }) => {
-  const { isLoading, error } = useAuth0();
-  if (isLoading) {
+  const { single_product_loading, single_product_error } = useProductsContext();
+  if (single_product_loading) {
     return (
       <Wrapper>
         <h1>Loading...</h1>
       </Wrapper>
     );
   }
-  if (error) {
+  if (single_product_error) {
     return (
       <Wrapper>
-        <h1>{error.message}</h1>
+        <h1>Error</h1>
       </Wrapper>
     );
   }

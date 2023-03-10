@@ -39,10 +39,10 @@ export const services = [
   },
 ];
 
-// export const products_url = "http://localhost:5000/api/v1/store-products";
-export const products_url = "http://54.211.26.216:5000/api/v1/store-products";
-// export const single_product_url = `http://localhost:5000/api/v1/store-single-products?id=`;
-export const single_product_url = `http://54.211.26.216:5000/api/v1/store-single-products?id=`;
+export const products_url = "http://localhost:5000/api/v1/store-products";
+// export const products_url = "http://54.211.26.216:5000/api/v1/store-products";
+export const single_product_url = `http://localhost:5000/api/v1/store-single-products?id=`;
+// export const single_product_url = `http://54.211.26.216:5000/api/v1/store-single-products?id=`;
 
 export const extraImages = [
   {

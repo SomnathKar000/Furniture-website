@@ -1,6 +1,8 @@
 require("dotenv").config();
 require("express-async-errors");
 
+// const asyncErrors = require("express-async-errors");
+
 const cors = require("cors");
 const express = require("express");
 const app = express();
@@ -22,6 +24,8 @@ app.use(cors());
 app.use("/api/v1/payment", paymentRoutes);
 app.use("/api/v1/user", authRoutes);
 app.use("/api/v1", productdRoute);
+
+// app.use(asyncErrors());
 
 // error handler
 app.use(errorMiddleware);

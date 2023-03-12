@@ -13,9 +13,12 @@ const Hero = () => {
           comfort zone
         </h1>
         <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aut eos
-          natus harum corrupti molestiae ad, id molestias excepturi dolor odit
-          sint at! Facere, accusamus totam.
+          Our furniture website offers a wide range of high-quality furniture
+          products for every room in your home. Our products are designed to be
+          stylish, comfortable, and durable, with options for every taste and
+          budget. We strive to provide an easy and enjoyable shopping
+          experience, with clear product information and a simple checkout
+          process.
         </p>
         <Link className="btn hero-btn" to="/products">
           Shop now

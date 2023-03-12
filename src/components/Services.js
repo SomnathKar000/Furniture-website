@@ -11,12 +11,6 @@ const Services = () => {
             Custom furniture <br />
             Build only for you
           </h3>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Recusandae
-            distinctio, laudantium dolorem quas nostrum nisi quidem praesentium
-            doloremque aspernatur voluptates, repellat ad officiis? Deleniti,
-            optio!
-          </p>
         </article>
         <div className="services-center">
           {services.map(({ id, icon, title, text }) => {

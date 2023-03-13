@@ -6,6 +6,8 @@ import {
   GET_USER_DATA,
 } from "../actions";
 
+import { host } from "../utils/constants";
+
 import axios from "axios";
 import reducer from "../reducers/user_reducer";
 
@@ -22,10 +24,10 @@ export const UserProvider = ({ children }) => {
   const getUser = async () => {
     const token = localStorage.getItem("token");
     if (token) {
-      const responce = await axios.post(
-        "http://localhost:5000/api/v1/user/get-user",
-        { token, ststus: true }
-      );
+      const responce = await axios.post(`${host}/api/v1/user/get-user`, {
+        token,
+        ststus: true,
+      });
 
       if (responce.data.success) {
         dispatch({ type: GET_USER_DATA, payload: responce.data.user });
@@ -40,15 +42,12 @@ export const UserProvider = ({ children }) => {
     const { first_name, last_name, email, password } = e;
 
     try {
-      const responce = await axios.post(
-        "http://localhost:5000/api/v1/user/create-user",
-        {
-          first_name,
-          last_name,
-          email,
-          password,
-        }
-      );
+      const responce = await axios.post(`${host}/api/v1/user/create-user`, {
+        first_name,
+        last_name,
+        email,
+        password,
+      });
       if (responce.data.success) {
         localStorage.setItem("token", responce.data.token);
         dispatch({ type: LOGIN_USER });
@@ -64,13 +63,10 @@ export const UserProvider = ({ children }) => {
     const { email, password } = e;
 
     try {
-      const responce = await axios.post(
-        "http://localhost:5000/api/v1/user/login",
-        {
-          email,
-          password,
-        }
-      );
+      const responce = await axios.post(`${host}/api/v1/user/login`, {
+        email,
+        password,
+      });
       if (responce.data.success) {
         localStorage.setItem("token", responce.data.token);
         dispatch({ type: LOGIN_USER });

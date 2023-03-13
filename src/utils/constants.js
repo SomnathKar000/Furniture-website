@@ -43,3 +43,6 @@ export const products_url = "http://localhost:5000/api/v1/store-products";
 // export const products_url = "http://3.84.135.175:5000/api/v1/store-products";
 export const single_product_url = `http://localhost:5000/api/v1/store-single-products?id=`;
 // export const single_product_url = `http://3.84.135.175:5000/api/v1/store-single-products?id=`;
+
+// export const host = `http://3.84.135.175:5000`;
+export const host = `http://localhost:5000`;

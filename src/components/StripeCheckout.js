@@ -49,9 +49,6 @@ const CheckoutForm = () => {
   const handleSubmit = (e) => {
     let paymentMethod = e.target.name;
     payment(cart, userAddress, paymentMethod);
-    if (paymentMethod === "cash on delivery") {
-      history.push("/");
-    }
   };
 
   return (

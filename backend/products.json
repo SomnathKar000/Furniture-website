@@ -55,7 +55,7 @@
   {
     "id": "rec1Ntk7siEEW9ha1",
     "name": "emperor bed",
-    "price": 23999,
+    "price": 239999,
     "image": "https://images.pexels.com/photos/775219/pexels-photo-775219.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     "colors": ["#0000ff", "#000"],
     "company": "ikea",
@@ -142,7 +142,7 @@
   {
     "id": "recF0KpwlkF7e8kXO",
     "name": "simple chair",
-    "price": 109999,
+    "price": 10999,
     "image": "https://images.pexels.com/photos/963486/pexels-photo-963486.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     "colors": ["#0000ff"],
     "company": "liddy",

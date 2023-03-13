@@ -2,6 +2,7 @@ import stripe from "stripe";
 import reducer from "../reducers/payment_reducer";
 import { useReducer, createContext, useContext } from "react";
 import axios from "axios";
+import { host } from "../utils/constants";
 
 const initialState = {
   order_list: [],
@@ -28,10 +29,13 @@ export const PaymentProvider = ({ children }) => {
     // const cart = localStorage.getItem("cart");
     try {
       const token = localStorage.getItem("token");
-      const responce = await axios.post(
-        "http://localhost:5000/api/v1/payment",
-        { items, userAddress, paymentMethod, token, totalamount }
-      );
+      const responce = await axios.post(`${host}/api/v1/payment`, {
+        items,
+        userAddress,
+        paymentMethod,
+        token,
+        totalamount,
+      });
 
       if (paymentMethod !== "cash on delivery") {
         // checkPaymentStatus(responce.datasession.url);

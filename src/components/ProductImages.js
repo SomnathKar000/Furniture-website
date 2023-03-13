@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { extraImages } from "../utils/constants";
 
 const ProductImages = ({ images = [{ url: "", filename: "" }] }) => {
-  const newImages = [images[0], ...extraImages];
+  const newImages = [...images];
   const [Main, setMain] = useState(newImages[0]);
 
   return (

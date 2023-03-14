@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: furweb-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: furweb
+  template:
+    metadata:
+      labels:
+        app: furweb
+    spec:
+      containers:
+        - name: furweb
+          image: furweb:latest
+          ports:
+            - containerPort: 3000
+            - containerPort: 5000

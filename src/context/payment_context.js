@@ -14,6 +14,7 @@ const formatPrice = (price) => price * 0.14;
 export const PaymentContext = createContext();
 
 export const PaymentProvider = ({ children }) => {
+  const hostValue = window.location.hostname;
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const payment = async (cart, userAddress, paymentMethod) => {
@@ -35,6 +36,7 @@ export const PaymentProvider = ({ children }) => {
         paymentMethod,
         token,
         totalamount,
+        hostValue,
       });
 
       if (paymentMethod !== "cash on delivery") {

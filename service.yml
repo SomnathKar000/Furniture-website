@@ -3,16 +3,17 @@ kind: Service
 metadata:
   name: furweb-service
 spec:
+  type: NodePort
   selector:
     app: furweb
   ports:
-    - name: http
+    - name: frontend
       port: 80
       targetPort: 3000
       nodePort: 30007
-    - name: api
+    - name: backend
       port: 5000
       targetPort: 5000
       nodePort: 30008
-  type: NodePort
+
 

@@ -6,7 +6,8 @@ const stripe = require("stripe")(
 const products = require("../products.json");
 
 const fillOrderOetails = async (req, res) => {
-  const { userAddress, items, paymentMethod, totalamount } = req.body;
+  const { userAddress, items, paymentMethod, totalamount, hostValue } =
+    req.body;
 
   const {
     fullName,
@@ -41,8 +42,8 @@ const fillOrderOetails = async (req, res) => {
         };
       }),
 
-      success_url: `http://localhost:3000/success`,
-      cancel_url: `http://localhost:3000/error`,
+      success_url: `http://${hostValue}:3000/success`,
+      cancel_url: `http://${hostValue}:3000/error`,
     });
     paymentId = session.id;
     paymentUrl = session.url;

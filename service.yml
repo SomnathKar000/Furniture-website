@@ -9,7 +9,10 @@ spec:
     - name: http
       port: 80
       targetPort: 3000
+      nodePort: 30007
     - name: api
       port: 5000
       targetPort: 5000
-  type: LoadBalancer
+      nodePort: 30008
+  type: NodePort
+

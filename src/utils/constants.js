@@ -38,11 +38,12 @@ export const services = [
     text: "Established in 1985, the company started as a small family-owned business. Over the years, it has expanded to become a leading supplier of high-quality furniture, known for its innovative designs and exceptional customer service.",
   },
 ];
+const hostname = window.location.hostname;
 
-export const products_url = "http://localhost:5000/api/v1/store-products";
+export const products_url = `http://${hostname}:5000/api/v1/store-products`;
 // export const products_url = "http://3.84.135.175:5000/api/v1/store-products";
-export const single_product_url = `http://localhost:5000/api/v1/store-single-products?id=`;
+export const single_product_url = `http://${hostname}:5000/api/v1/store-single-products?id=`;
 // export const single_product_url = `http://3.84.135.175:5000/api/v1/store-single-products?id=`;
 
 // export const host = `http://3.84.135.175:5000`;
-export const host = `http://localhost:5000`;
+export const host = `http://${hostname}:5000`;

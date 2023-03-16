@@ -10,6 +10,7 @@ import SingleProductPage from "./SingleProductPage";
 import LoginPage from "./LoginPage";
 import SignupPage from "./SignupPage";
 import PaymentResultPage from "./PaymentResultPage";
+import OrderListPage from "./OrderListPage";
 export {
   PaymentResultPage,
   SignupPage,
@@ -23,4 +24,5 @@ export {
   PrivateRoute,
   ErrorPage,
   AuthWrapper,
+  OrderListPage,
 };

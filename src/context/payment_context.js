@@ -27,7 +27,6 @@ export const PaymentProvider = ({ children }) => {
         price: formatPrice(price),
       };
     });
-    // const cart = localStorage.getItem("cart");
     try {
       const token = localStorage.getItem("token");
       const responce = await axios.post(`${host}/api/v1/payment`, {
@@ -40,7 +39,6 @@ export const PaymentProvider = ({ children }) => {
       });
 
       if (paymentMethod !== "cash on delivery") {
-        // checkPaymentStatus(responce.datasession.url);
         window.location = responce.data.url;
       } else {
         alert(responce.data.msg);
@@ -61,6 +59,9 @@ export const PaymentProvider = ({ children }) => {
       // Handle successful payment here
     }
   };
+
+  // Get All order list
+  const GetAllOrderList = async () => {};
   return (
     <PaymentContext.Provider value={{ ...state, checkPaymentStatus, payment }}>
       {children}

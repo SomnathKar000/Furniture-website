@@ -10,6 +10,7 @@ const app = express();
 const authRoutes = require("./routes/auth");
 const paymentRoutes = require("./routes/payment");
 const productdRoute = require("./routes/products");
+const orderListRoute = require("./routes/orderList");
 const notfoundMiddleware = require("./middleware/not-found");
 const errorMiddleware = require("./middleware/error-handler");
 const connectDb = require("./db/connect.js");
@@ -24,6 +25,7 @@ app.use(cors());
 app.use("/api/v1/payment", paymentRoutes);
 app.use("/api/v1/user", authRoutes);
 app.use("/api/v1", productdRoute);
+app.use("/api/v1/orders", orderListRoute);
 
 // app.use(asyncErrors());
 

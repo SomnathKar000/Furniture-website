@@ -3,7 +3,13 @@ const payment_reducer = (state, action) => {
     const lists = action.payload;
     return { ...state, order_list: lists };
   }
+  if (action.type === "GET_SINGLE_ORDER") {
+    const id = action.payload.id;
+    const product = state.order_list.find((item) => item._id === id);
+    return { ...state, single_order: product };
+  }
   return { ...state };
+
   throw new Error(`No Matching "${action.type}" - action type`);
 };
 

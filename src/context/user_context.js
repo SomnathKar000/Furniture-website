@@ -26,7 +26,7 @@ export const UserProvider = ({ children }) => {
     if (token) {
       const responce = await axios.post(`${host}/api/v1/user/get-user`, {
         token,
-        ststus: true,
+        status: true,
       });
 
       if (responce.data.success) {

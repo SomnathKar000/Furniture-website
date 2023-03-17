@@ -1,6 +1,6 @@
 import stripe from "stripe";
 import reducer from "../reducers/payment_reducer";
-import { useReducer, createContext, useContext } from "react";
+import { useReducer, createContext, useContext, useEffect } from "react";
 import axios from "axios";
 import { host } from "../utils/constants";
 
@@ -61,7 +61,22 @@ export const PaymentProvider = ({ children }) => {
   };
 
   // Get All order list
-  const GetAllOrderList = async () => {};
+  const GetAllOrderList = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const responce = await axios.post(`${host}/api/v1/orders `, {
+        token,
+        success: true,
+      });
+      console.log(responce.data.data);
+      dispatch({ type: "GET_ALL_LISTS", payload: responce.data.data });
+    } catch (error) {
+      alert(error.responce.data.msg);
+    }
+  };
+  useEffect(() => {
+    GetAllOrderList();
+  }, [localStorage.getItem("token")]);
   return (
     <PaymentContext.Provider value={{ ...state, checkPaymentStatus, payment }}>
       {children}

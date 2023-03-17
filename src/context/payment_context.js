@@ -69,8 +69,10 @@ export const PaymentProvider = ({ children }) => {
         token,
         success: true,
       });
+      const data = responce.data.data;
+      const products = responce.data.products;
 
-      dispatch({ type: "GET_ALL_LISTS", payload: responce.data.data });
+      dispatch({ type: "GET_ALL_LISTS", payload: { data, products } });
     } catch (error) {
       alert(error.responce.data.msg);
     }

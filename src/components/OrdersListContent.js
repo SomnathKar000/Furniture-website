@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const OrderListContent = (props) => {
+  console.log(window.location);
   const { paidAt, isPaid, paymentMethod, totalPrice, shippingAddress, _id } =
     props;
 
@@ -11,7 +12,7 @@ const OrderListContent = (props) => {
 
   const { fullName, phoneNo1, phoneNo2, landmark, area, city, state, pincode } =
     shippingAddress;
-  let PaymentStatus = isPaid === true ? "Successful" : "Unsuccessful";
+  let PaymentStatus = isPaid === true ? "Successful" : "Not paid";
   let phoneNo = phoneNo1;
   if (phoneNo2) {
     phoneNo = phoneNo1 + "," + phoneNo2;

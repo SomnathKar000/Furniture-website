@@ -1,7 +1,7 @@
 const payment_reducer = (state, action) => {
   if (action.type === "GET_ALL_LISTS") {
-    const lists = action.payload;
-    return { ...state, order_list: lists };
+    const { data, products } = action.payload;
+    return { ...state, order_list: data };
   }
   if (action.type === "GET_SINGLE_ORDER") {
     const id = action.payload.id;

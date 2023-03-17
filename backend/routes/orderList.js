@@ -3,6 +3,6 @@ const router = express.Router();
 const { getAllOrderList } = require("../controllers/orderListControler");
 const authentication = require("../middleware/authentication");
 
-router.route("/").get(authentication, getAllOrderList);
+router.route("/").post(authentication, getAllOrderList);
 
 module.exports = router;

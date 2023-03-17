@@ -8,6 +8,7 @@ const initialState = {
   order_list: [],
   payment_loading: false,
   payment_error: false,
+  single_order: {},
 };
 const formatPrice = (price) => price * 0.14;
 
@@ -68,17 +69,25 @@ export const PaymentProvider = ({ children }) => {
         token,
         success: true,
       });
-      console.log(responce.data.data);
+
       dispatch({ type: "GET_ALL_LISTS", payload: responce.data.data });
     } catch (error) {
       alert(error.responce.data.msg);
     }
   };
+
+  // Get Single Order
+  const GetSingleOrder = (id) => {
+    dispatch({ type: "GET_SINGLE_ORDER", payload: id });
+  };
+
   useEffect(() => {
     GetAllOrderList();
   }, [localStorage.getItem("token")]);
   return (
-    <PaymentContext.Provider value={{ ...state, checkPaymentStatus, payment }}>
+    <PaymentContext.Provider
+      value={{ ...state, checkPaymentStatus, payment, GetSingleOrder }}
+    >
       {children}
     </PaymentContext.Provider>
   );

@@ -11,6 +11,7 @@ import LoginPage from "./LoginPage";
 import SignupPage from "./SignupPage";
 import PaymentResultPage from "./PaymentResultPage";
 import OrderListPage from "./OrderListPage";
+import SingleOrderPage from "./SingleOrderPage";
 export {
   PaymentResultPage,
   SignupPage,
@@ -25,4 +26,5 @@ export {
   ErrorPage,
   AuthWrapper,
   OrderListPage,
+  SingleOrderPage,
 };

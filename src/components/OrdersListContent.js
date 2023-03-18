@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const OrderListContent = (props) => {
-  console.log(window.location);
   const { paidAt, isPaid, paymentMethod, totalPrice, shippingAddress, _id } =
     props;
 

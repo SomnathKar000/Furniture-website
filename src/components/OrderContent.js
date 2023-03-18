@@ -3,8 +3,9 @@ import OrderColumns from "./OrderColumns";
 import OrderItem from "./OrderItem";
 import { useCartContext } from "../context/cart_context";
 
-const OrderContent = () => {
+const OrderContent = (props) => {
   const { cart } = useCartContext();
+  console.log(props.item);
   return (
     <div className="container">
       <OrderColumns />

@@ -27,11 +27,10 @@ const payment_reducer = (state, action) => {
     return { ...state, order_list: data };
   }
   if (action.type === "GET_SINGLE_ORDER") {
-    const { NewData } = action.payload;
-
+    const data = { ...action.payload };
     return {
       ...state,
-      single_order: NewData,
+      single_order: data,
       single_order_loading: false,
       single_order_error: false,
     };

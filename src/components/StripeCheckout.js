@@ -50,6 +50,21 @@ const CheckoutForm = () => {
     let paymentMethod = e.target.name;
     payment(cart, userAddress, paymentMethod);
   };
+  const getLocation = async () => {
+    const getIPInfo = async () => {
+      const response = await fetch(
+        "https://ipinfo.io/json?token=92a88456b8db402c9f6ed850791d87a9"
+      );
+      const data = await response.json();
+      console.log(data);
+      console.log("City: " + data.city);
+      console.log("State: " + data.region);
+      console.log("Country: " + data.country);
+      console.log("Latitude: " + data.loc.split(",")[0]);
+      console.log("Longitude: " + data.loc.split(",")[1]);
+    };
+    getIPInfo();
+  };
 
   return (
     <div>
@@ -122,7 +137,7 @@ const CheckoutForm = () => {
             />
           </div>
           <div className="mb-3">
-            <button className="btn" type="button">
+            <button className="btn" onClick={getLocation} type="button">
               Use my location
             </button>
           </div>

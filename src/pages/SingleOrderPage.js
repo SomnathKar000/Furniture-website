@@ -7,15 +7,17 @@ import { usePaymentContext } from "../context/payment_context";
 const SingleOrderPage = () => {
   const { id } = useParams();
   const {
+    order_list,
     GetSingleOrder,
     single_order_loading,
     single_order_error,
     single_order,
   } = usePaymentContext();
   useEffect(() => {
-    GetSingleOrder(id);
+    const OLIst = [...order_list];
+    GetSingleOrder(id, OLIst);
   }, [id]);
-  if (single_order_error) {
+  if (single_order_error || Object.keys(single_order).length === 0) {
     return (
       <>
         <PageHero />
@@ -23,7 +25,7 @@ const SingleOrderPage = () => {
       </>
     );
   }
-  if (single_order_loading) {
+  if (single_order_loading || order_list.length === 0) {
     return (
       <>
         <PageHero />
@@ -31,8 +33,6 @@ const SingleOrderPage = () => {
       </>
     );
   }
-
-  // const { items } = single_order;
   return (
     <>
       <PageHero />

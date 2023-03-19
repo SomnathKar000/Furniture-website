@@ -5,22 +5,22 @@ import { FaAngleRight } from "react-icons/fa";
 
 import { formatPrice } from "../utils/helpers";
 const OrderItem = (props) => {
-  const { Image, amount, color, id, name, price } = props.products;
-  const pId = id.split("#")[0];
+  const { image, quantity, color, productId, name, price } = props.products;
+  const pId = productId.split("#")[0];
   return (
     <Wrapper>
       <div className="item-container">
-        <img src={Image} alt={name}></img>
+        <img src={image} alt={name}></img>
         <div className="details">
           <p>{name}</p>
           <p className="color">
             color : <span style={{ background: color }}></span>
           </p>
           <p className="price-small">{formatPrice(price)}</p>
-          <p>Quantity: {amount}</p>
+          <p>Quantity: {quantity}</p>
         </div>
       </div>
-      <h5>{formatPrice(price * amount)}</h5>
+      <h5>{formatPrice(price * quantity)}</h5>
       <h5>On the way</h5>
       <Link className="btn" to={`/products/${pId}`}>
         view

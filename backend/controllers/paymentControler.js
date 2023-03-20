@@ -4,6 +4,13 @@ const stripe = require("stripe")(
   "sk_test_51MdZfRSH3GkL6hjyIHPzefJK8bVV3zBdI9pg23vZbkfY7LTofCCQ7DcpQv58S34lu8Wlh3tLRDi0iBkHxXIjocDI00ywJ9PxM1"
 );
 const products = require("../products.json");
+const createPaymentIntent = async (amount, currency) => {
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount,
+    currency,
+  });
+  return paymentIntent;
+};
 
 const fillOrderOetails = async (req, res) => {
   const { userAddress, items, paymentMethod, totalamount, hostValue } =
@@ -23,6 +30,7 @@ const fillOrderOetails = async (req, res) => {
   let paymentId = "cash";
   let paymentUrl = "";
   if (paymentMethod !== "cash on delivery") {
+    const paymentIntent = await createPaymentIntent(100, "inr");
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
@@ -41,6 +49,7 @@ const fillOrderOetails = async (req, res) => {
           quantity: item.quantity,
         };
       }),
+      payment_intent: paymentIntent.id,
 
       success_url: `http://${hostValue}:3000/success`,
       cancel_url: `http://${hostValue}:3000/error`,

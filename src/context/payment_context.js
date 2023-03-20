@@ -1,6 +1,11 @@
-import stripe from "stripe";
 import reducer from "../reducers/payment_reducer";
-import { useReducer, createContext, useContext, useEffect } from "react";
+import {
+  useReducer,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import axios from "axios";
 import { host } from "../utils/constants";
 
@@ -52,16 +57,6 @@ export const PaymentProvider = ({ children }) => {
       alert(error.responce.data.msg);
     }
   };
-  const checkPaymentStatus = async (url) => {
-    const { paymentIntent, error } = await stripe.confirmCardPayment(url);
-    if (error) {
-      console.log(error);
-      // Handle error her
-    } else if (paymentIntent && paymentIntent.status === "succeeded") {
-      console.log(paymentIntent);
-      // Handle successful payment here
-    }
-  };
 
   // Get All order list
   const GetAllOrderList = async () => {
@@ -95,9 +90,7 @@ export const PaymentProvider = ({ children }) => {
     GetAllOrderList();
   }, [localStorage.getItem("token")]);
   return (
-    <PaymentContext.Provider
-      value={{ ...state, checkPaymentStatus, payment, GetSingleOrder }}
-    >
+    <PaymentContext.Provider value={{ ...state, payment, GetSingleOrder }}>
       {children}
     </PaymentContext.Provider>
   );

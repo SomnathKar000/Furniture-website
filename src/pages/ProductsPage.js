@@ -6,7 +6,7 @@ const ProductsPage = () => {
   console.log (window.location)
   return (
     <main>
-      <PageHero title="products" />
+      <PageHero title="products" /><h1>DockerTest</h1>
       <Wrapper className="page">
         <div className="section-center products">
           <Filters />

@@ -1,7 +1,6 @@
 FROM ubuntu
+COPY . /furniture_web
 WORKDIR /furniture_web
-
-COPY . .
 RUN apt update
 RUN apt install -y npm
 RUN npm i

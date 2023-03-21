@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Filters, ProductList, Sort, PageHero } from "../components";
 
 const ProductsPage = () => {
+  console.log (window.location)
   return (
     <main>
       <PageHero title="products" />

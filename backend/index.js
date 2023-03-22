@@ -15,7 +15,7 @@ const notfoundMiddleware = require("./middleware/not-found");
 const errorMiddleware = require("./middleware/error-handler");
 const connectDb = require("./db/connect.js");
 
-const port = 5000;
+const port = process.env.REACT_APP_BACKEND_PORT;
 // middleware
 
 app.use(express.json());

@@ -35,11 +35,6 @@ export const PaymentProvider = ({ children }) => {
         price: formatPrice(price),
       };
     });
-    console.log(items);
-    console.log(userAddress);
-    console.log(paymentMethod);
-    console.log(totalamount);
-    console.log(hostValue);
     try {
       const token = localStorage.getItem("token");
       const responce = await axios.post(`${host}/api/v1/payment`, {

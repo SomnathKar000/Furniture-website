@@ -39,7 +39,7 @@ export const services = [
   },
 ];
 const hostname = window.location.hostname;
-
-export const products_url = `http://${hostname}:5000/api/v1/store-products`;
-export const single_product_url = `http://${hostname}:5000/api/v1/store-single-products?id=`;
-export const host = `http://${hostname}:5000`;
+const portValue = process.env.REACT_APP_BACKEND_PORT;
+export const products_url = `http://${hostname}:${portValue}/api/v1/store-products`;
+export const single_product_url = `http://${hostname}:${portValue}/api/v1/store-single-products?id=`;
+export const host = `http://${hostname}:${portValue}`;

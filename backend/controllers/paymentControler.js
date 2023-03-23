@@ -1,8 +1,6 @@
 // const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 const Order = require("../models/orderModule");
-const stripe = require("stripe")(
-  "sk_test_51MdZfRSH3GkL6hjyIHPzefJK8bVV3zBdI9pg23vZbkfY7LTofCCQ7DcpQv58S34lu8Wlh3tLRDi0iBkHxXIjocDI00ywJ9PxM1"
-);
+const stripe = require("stripe")(process.env.REACT_APP_STRIPE_PRIVATE_KEY);
 const products = require("../products.json");
 
 const fillOrderOetails = async (req, res) => {

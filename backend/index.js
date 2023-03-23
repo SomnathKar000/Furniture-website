@@ -42,12 +42,12 @@ const reactPort = content.split("// Split")[1].split("=")[1].slice(1, 5);
 
 const start = async () => {
   try {
-    // console.log(process.emv.SERVER_URL);
-    await connectDb(
-      "mongodb+srv://Somnath000:som007007@nodeexpressprojects.c4mduyu.mongodb.net/furniture-store?retryWrites=true&w=majority"
-    );
+    await connectDb(process.env.DB_URL);
     const server = app.listen(port, () => {
+      // My port value
       const newPortValue = server.address().port;
+
+      // Updating the port value in frontend
       if (Number(reactPort) !== newPortValue) {
         const newContent = content.replace(
           /const portValue = \d+/g,

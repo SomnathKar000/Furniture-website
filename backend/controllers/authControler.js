@@ -2,7 +2,7 @@ const User = require("../models/userModel");
 const customError = require("../errors/error");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const jwtSecret = "amiSomnath";
+const jwtSecret = process.env.JWTSECRET;
 
 // check the email is valid or not
 const isValidEmail = (email) => {

@@ -39,7 +39,10 @@ export const services = [
   },
 ];
 const hostname = window.location.hostname;
-const portValue = process.env.REACT_APP_BACKEND_PORT;
+
+// Split
+const portValue = 5000;;;
+// Split
 export const products_url = `http://${hostname}:${portValue}/api/v1/store-products`;
 export const single_product_url = `http://${hostname}:${portValue}/api/v1/store-single-products?id=`;
 export const host = `http://${hostname}:${portValue}`;

@@ -5,6 +5,8 @@ require("express-async-errors");
 
 const cors = require("cors");
 const express = require("express");
+const path = require("path");
+const { readFileSync, writeFileSync } = require("fs");
 const app = express();
 
 const authRoutes = require("./routes/auth");
@@ -33,13 +35,27 @@ app.use("/api/v1/orders", orderListRoute);
 app.use(errorMiddleware);
 app.use(notfoundMiddleware);
 
+const dirName = path.dirname(__dirname);
+const fileName = path.join(dirName, "/src/utils/constants.js");
+const content = readFileSync(fileName, "utf-8");
+const reactPort = content.split("// Split")[1].split("=")[1].slice(1, 5);
+
 const start = async () => {
   try {
     // console.log(process.emv.SERVER_URL);
     await connectDb(
       "mongodb+srv://Somnath000:som007007@nodeexpressprojects.c4mduyu.mongodb.net/furniture-store?retryWrites=true&w=majority"
     );
-    app.listen(port, () => {
+    const server = app.listen(port, () => {
+      const newPortValue = server.address().port;
+      if (Number(reactPort) !== newPortValue) {
+        const newContent = content.replace(
+          /const portValue = \d+/g,
+          `const portValue = ${newPortValue};`
+        );
+        writeFileSync(fileName, newContent);
+      }
+
       console.log("connected to the database ", port);
     });
   } catch (error) {

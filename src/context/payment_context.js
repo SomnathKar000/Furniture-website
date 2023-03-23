@@ -66,7 +66,7 @@ export const PaymentProvider = ({ children }) => {
         token,
         success: true,
       });
-      const data = responce.data.data;
+      const data = responce.data.data.reverse();
       const products = responce.data.products;
 
       dispatch({ type: "GET_ALL_LISTS", payload: { data, products } });

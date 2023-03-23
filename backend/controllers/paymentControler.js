@@ -23,6 +23,11 @@ const fillOrderOetails = async (req, res) => {
   let paymentId = "cash";
   let url = "";
   if (paymentMethod !== "cash on delivery") {
+    const shippingRate = await stripe.shippingRates.create({
+      display_name: "Shipping charge",
+      type: "fixed_amount",
+      fixed_amount: { amount: 7500, currency: "inr" },
+    });
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
@@ -41,11 +46,11 @@ const fillOrderOetails = async (req, res) => {
           quantity: item.quantity,
         };
       }),
+      shipping_options: [{ shipping_rate: shippingRate.id }],
       success_url: `http://${hostValue}:3000/success`,
       cancel_url: `http://${hostValue}:3000/error`,
     });
-
-    console.log(session.url, session.id, paymentIntent.id, "Ok");
+    console.log(session.url, session.id, "Ok");
     paymentId = session.id;
     url = session.url;
   }
@@ -89,7 +94,14 @@ const fillOrderOetails = async (req, res) => {
     // id: order.id,
   });
 };
+
 const createPayment = async (req, res) => {
+  const shippingRate = await stripe.shippingRates.create({
+    display_name: "Shipping charge",
+    type: "fixed_amount",
+    fixed_amount: { amount: 7500, currency: "inr" },
+  });
+
   const { items, hostValue, totalamount } = req.body;
   let paymentId = "cash";
   let url = "";
@@ -113,11 +125,12 @@ const createPayment = async (req, res) => {
           quantity: item.quantity,
         };
       }),
+      shipping_options: [{ shipping_rate: shippingRate.id }],
       success_url: `http://${hostValue}:3000/success`,
       cancel_url: `http://${hostValue}:3000/error`,
     });
     console.log("after session");
-    console.log(session.url, session.id, paymentIntent.id, "Ok");
+    console.log(session.url, session.id, "Ok");
     paymentId = session.id;
     url = session.url;
     console.log(session);

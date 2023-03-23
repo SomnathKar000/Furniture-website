@@ -55,6 +55,32 @@ const getSingleOrderList = async (req, res) => {
   const { productId } = req.body;
   const data = await Order.find({ userId: userId, _id: productId });
 
+  // check the payment status
+
+  try {
+    const session = await stripe.checkout.sessions.retrieve(paymentId);
+    const payment = await stripe.paymentIntents.retrieve(
+      session.payment_intent
+    );
+    if (payment.status === "succeeded") {
+      // Payment succeeded
+      res.status(200).send("Success");
+    } else if (payment.status === "requires_payment_method") {
+      // Payment requires additional action
+      res.status(402).send("Payment requires additional action.");
+    } else {
+      // Payment failed
+      res.status(400).send("Payment failed.");
+    }
+
+    res.status(200).json({ session });
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .send("An error occurred while checking the payment status.");
+  }
+
   res.status(200).send({ success: true, data, products });
 };
 

@@ -17,7 +17,7 @@ const notfoundMiddleware = require("./middleware/not-found");
 const errorMiddleware = require("./middleware/error-handler");
 const connectDb = require("./db/connect.js");
 
-const port = process.env.REACT_APP_BACKEND_PORT;
+const port = process.env.REACT_APP_BACKEND_PORT || 5000;
 // middleware
 
 app.use(express.json());
@@ -55,8 +55,11 @@ const start = async () => {
         );
         writeFileSync(fileName, newContent);
       }
-
-      console.log("connected to the database ", port);
+      console.log(fileName);
+      console.log(
+        "New port value " + newPortValue + ", Frontend port value " + reactPort
+      );
+      console.log(`Server listening on port ${port}`);
     });
   } catch (error) {
     console.log(error);

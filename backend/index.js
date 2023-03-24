@@ -42,7 +42,10 @@ const reactPort = content.split("// Split")[1].split("=")[1].slice(1, 5);
 
 const start = async () => {
   try {
-    await connectDb(process.env.DB_URL);
+    // await connectDb(process.env.DB_URL);
+    await connectDb(
+      "mongodb+srv://Somnath000:som007007@nodeexpressprojects.c4mduyu.mongodb.net/furniture-store?retryWrites=true&w=majority"
+    );
     const server = app.listen(port, () => {
       // My port value
       const newPortValue = server.address().port;
@@ -53,8 +56,10 @@ const start = async () => {
           /const portValue = \d+/g,
           `const portValue = ${newPortValue};`
         );
+
         writeFileSync(fileName, newContent);
       }
+      // console.log(content);
       console.log(fileName);
       console.log(
         "New port value " + newPortValue + ", Frontend port value " + reactPort

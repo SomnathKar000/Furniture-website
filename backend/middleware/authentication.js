@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
-const jwtSecret = process.env.JWTSECRET;
+// const jwtSecret = process.env.JWTSECRET;
+const jwtSecret = "amiSomnath";
 const customError = require("../errors/error");
 
 const authentication = (req, res, next) => {

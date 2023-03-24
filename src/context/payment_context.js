@@ -28,7 +28,7 @@ export const PaymentProvider = ({ children }) => {
   const payment = async (cart, userAddress, paymentMethod) => {
     let totalamount = 0;
     const items = cart.map(({ id, amount, price }) => {
-      totalamount += price;
+      totalamount += formatPrice(price);
       return {
         productId: id,
         quantity: amount,

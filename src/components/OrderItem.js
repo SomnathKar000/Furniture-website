@@ -16,11 +16,11 @@ const OrderItem = (props) => {
           <p className="color">
             color : <span style={{ background: color }}></span>
           </p>
-          <p className="price-small">{formatPrice(price)}</p>
+          <p className="price-small">{price}</p>
           <p>Quantity: {quantity}</p>
         </div>
       </div>
-      <h5>{formatPrice(price * quantity)}</h5>
+      <h5>{price * quantity}</h5>
       <h5>On the way</h5>
       <Link className="btn" to={`/products/${pId}`}>
         view

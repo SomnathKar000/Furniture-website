@@ -38,6 +38,9 @@ const Sidebar = () => {
               <Link onClick={closeSidebar} to="/checkout">
                 Checkout
               </Link>
+              <Link onClick={closeSidebar} to="/orderlist">
+                Orders
+              </Link>
             </li>
           )}
         </ul>

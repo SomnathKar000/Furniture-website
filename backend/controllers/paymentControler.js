@@ -1,8 +1,6 @@
 // const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 const Order = require("../models/orderModule");
-const stripe = require("stripe")(
-  "sk_test_51MdZfRSH3GkL6hjyIHPzefJK8bVV3zBdI9pg23vZbkfY7LTofCCQ7DcpQv58S34lu8Wlh3tLRDi0iBkHxXIjocDI00ywJ9PxM1"
-);
+const stripe = require("stripe")(process.env.REACT_APP_STRIPE_PRIVATE_KEY);
 const products = require("../products.json");
 
 const fillOrderOetails = async (req, res) => {
@@ -21,8 +19,13 @@ const fillOrderOetails = async (req, res) => {
     landmark,
   } = userAddress;
   let paymentId = "cash";
-  let paymentUrl = "";
+  let url = "";
   if (paymentMethod !== "cash on delivery") {
+    const shippingRate = await stripe.shippingRates.create({
+      display_name: "Shipping charge",
+      type: "fixed_amount",
+      fixed_amount: { amount: 7500, currency: "inr" },
+    });
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
@@ -41,12 +44,13 @@ const fillOrderOetails = async (req, res) => {
           quantity: item.quantity,
         };
       }),
-
+      shipping_options: [{ shipping_rate: shippingRate.id }],
       success_url: `http://${hostValue}:3000/success`,
       cancel_url: `http://${hostValue}:3000/error`,
     });
+    console.log(session.url, session.id, "Ok");
     paymentId = session.id;
-    paymentUrl = session.url;
+    url = session.url;
   }
   order = await Order.create({
     userId: req.user.id,
@@ -83,43 +87,85 @@ const fillOrderOetails = async (req, res) => {
 
   return res.status(200).json({
     success: true,
-    url: paymentUrl,
+    url: url,
     paymentId: paymentId,
     // id: order.id,
   });
 };
+
 const createPayment = async (req, res) => {
-  const items = req.items;
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ["card"],
-    mode: "payment",
-    line_items: items.map((item) => {
-      let product = products.find((e) => e.id === item.productId.split("#")[0]);
-      return {
-        price_data: {
-          currency: "inr",
-          product_data: {
-            name: product.name,
-          },
-          unit_amount: product.price * 14,
-        },
-        quantity: item.quantity,
-      };
-    }),
-
-    success_url: `http://localhost:3000/success`,
-    cancel_url: `http://localhost:3000/error`,
+  const shippingRate = await stripe.shippingRates.create({
+    display_name: "Shipping charge",
+    type: "fixed_amount",
+    fixed_amount: { amount: 7500, currency: "inr" },
   });
-  console.log(session);
 
-  res.status(200).json({ url: session.url, paymentId: paymentId });
+  const { items, hostValue, totalamount } = req.body;
+  let paymentId = "cash";
+  let url = "";
+  console.log("session");
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      mode: "payment",
+      line_items: items.map((item) => {
+        let product = products.find(
+          (e) => e.id === item.productId.split("#")[0]
+        );
+        return {
+          price_data: {
+            currency: "inr",
+            product_data: {
+              name: product.name,
+            },
+            unit_amount: product.price * 14,
+          },
+          quantity: item.quantity,
+        };
+      }),
+      shipping_options: [{ shipping_rate: shippingRate.id }],
+      success_url: `http://${hostValue}:3000/success`,
+      cancel_url: `http://${hostValue}:3000/error`,
+    });
+    console.log("after session");
+    console.log(session.url, session.id, "Ok");
+    paymentId = session.id;
+    url = session.url;
+    console.log(session);
+
+    res.status(200).json({ url: session.url, paymentId: paymentId });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("some error");
+  }
 };
 
 const getPaymentStatus = async (req, res) => {
   const { paymentId } = req.body;
-  const payment = await stripe.paymentIntents.retrieve(paymentId);
-  const paymentStatus = payment.status;
-  res.status(200).json({ paymentStatus });
+
+  try {
+    const session = await stripe.checkout.sessions.retrieve(paymentId);
+    const payment = await stripe.paymentIntents.retrieve(
+      session.payment_intent
+    );
+    if (payment.status === "succeeded") {
+      // Payment succeeded
+      res.status(200).send("Success");
+    } else if (payment.status === "requires_payment_method") {
+      // Payment requires additional action
+      res.status(402).send("Payment requires additional action.");
+    } else {
+      // Payment failed
+      res.status(400).send("Payment failed.");
+    }
+
+    res.status(200).json({ session });
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .send("An error occurred while checking the payment status.");
+  }
 };
 
 module.exports = { fillOrderOetails, createPayment, getPaymentStatus };

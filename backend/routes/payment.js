@@ -9,7 +9,7 @@ const express = require("express");
 const router = express.Router();
 
 router.route("/").post(authentication, fillOrderOetails);
-router.route("/create-checkout-session").post(createPayment);
-// router.route("/check-payment-status").get(getPaymentStatus);
+router.route("/create-checkout-session").post(authentication, createPayment);
+router.route("/check-payment-status").get(getPaymentStatus);
 
 module.exports = router;

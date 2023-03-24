@@ -14,6 +14,8 @@ import {
   ErrorPage,
   LoginPage,
   SignupPage,
+  OrderListPage,
+  SingleOrderPage,
 } from "./pages/index";
 
 function App() {
@@ -47,6 +49,10 @@ function App() {
           <Route exact path="/cancel">
             <PaymentResultPage result={false} />
           </Route>
+          <Route exact path="/orderlist">
+            <OrderListPage />
+          </Route>
+          <Route exact path="/orderlist/:id" children={<SingleOrderPage />} />
           <Route exact path="/products/:id" children={<SingleProductPage />} />
           <PrivateRoute exact path="/checkout">
             <CheckoutPage />

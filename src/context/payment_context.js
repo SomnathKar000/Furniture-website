@@ -61,17 +61,20 @@ export const PaymentProvider = ({ children }) => {
   // Get All order list
   const GetAllOrderList = async () => {
     const token = localStorage.getItem("token");
-    try {
-      const responce = await axios.post(`${host}/api/v1/orders `, {
-        token,
-        success: true,
-      });
-      const data = responce.data.data.reverse();
-      const products = responce.data.products;
 
-      dispatch({ type: "GET_ALL_LISTS", payload: { data, products } });
-    } catch (error) {
-      alert(error.responce.data.msg);
+    if (token) {
+      try {
+        const responce = await axios.post(`${host}/api/v1/orders `, {
+          token,
+          success: true,
+        });
+        const data = responce.data.data.reverse();
+        const products = responce.data.products;
+
+        dispatch({ type: "GET_ALL_LISTS", payload: { data, products } });
+      } catch (error) {
+        alert(error.responce.data.msg);
+      }
     }
   };
 
@@ -88,7 +91,7 @@ export const PaymentProvider = ({ children }) => {
 
   useEffect(() => {
     GetAllOrderList();
-  }, [localStorage.getItem("token")]);
+  }, []);
   return (
     <PaymentContext.Provider value={{ ...state, payment, GetSingleOrder }}>
       {children}

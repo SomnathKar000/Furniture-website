@@ -82,7 +82,7 @@ export const PaymentProvider = ({ children }) => {
       dispatch({ type: "SINGLE_ORDER_LOADING_ERROR" });
     }
     let newData = {};
-    newData = OList.find((item) => item._id == id);
+    newData = OList.find((item) => item._id === id);
     dispatch({ type: "GET_SINGLE_ORDER", payload: newData });
   };
 

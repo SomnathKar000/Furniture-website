@@ -3,8 +3,9 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { FaAngleRight } from "react-icons/fa";
 
-import { formatPrice } from "../utils/helpers";
+import { simpleFormatPrice } from "../utils/helpers";
 const OrderItem = (props) => {
+  const status = props.orderStatus;
   const { image, quantity, color, productId, name, price } = props.products;
   const pId = productId.split("#")[0];
   return (
@@ -20,8 +21,8 @@ const OrderItem = (props) => {
           <p>Quantity: {quantity}</p>
         </div>
       </div>
-      <h5>{price * quantity}</h5>
-      <h5>On the way</h5>
+      <h5>{simpleFormatPrice(price * quantity)}</h5>
+      <h5>{status}</h5>
       <Link className="btn" to={`/products/${pId}`}>
         view
       </Link>

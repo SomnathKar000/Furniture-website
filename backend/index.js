@@ -53,13 +53,12 @@ const start = async () => {
       // // Updating the port value in frontend
       if (Number(reactPort) !== newPortValue) {
         const newContent = content.replace(
-          /const portValue = \d+/g,
-          `const portValue = ${newPortValue};`
+          /let portValue = \d+/g,
+          `let portValue = ${newPortValue}`
         );
 
         writeFileSync(fileName, newContent);
       }
-      console.log(content);
       console.log(fileName);
       console.log(
         "New port value " + newPortValue + ", Frontend port value " + reactPort

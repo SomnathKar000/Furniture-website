@@ -85,4 +85,19 @@ const getSingleOrderList = async (req, res) => {
   res.status(200).send({ success: true, data, products });
 };
 
-module.exports = { getAllOrderList, getSingleOrderList, checkPaymentStatus };
+const cancelOrder = async (req, res) => {
+  const { productId } = req.body;
+
+  await Order.findByIdAndUpdate(productId, {
+    orderStatus: "Canceled",
+  });
+
+  res.status(200).send({ success: true, msg: "Order cancelled" });
+};
+
+module.exports = {
+  getAllOrderList,
+  getSingleOrderList,
+  checkPaymentStatus,
+  cancelOrder,
+};

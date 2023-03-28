@@ -1,17 +1,27 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { usePaymentContext } from "../context/payment_context";
+import { simpleFormatPrice } from "../utils/helpers";
 
 const OrderListContent = (props) => {
-  const { paidAt, isPaid, paymentMethod, totalPrice, shippingAddress, _id } =
-    props;
+  const { CancelOrder } = usePaymentContext();
+  const {
+    paidAt,
+    paymentMethod,
+    totalPrice,
+    shippingAddress,
+    _id,
+    orderStatus,
+    paymentSyatus,
+  } = props;
 
   const newDate = new Date(paidAt);
   const formattedDate = newDate.toLocaleString();
 
   const { fullName, phoneNo1, phoneNo2, landmark, area, city, state, pincode } =
     shippingAddress;
-  let PaymentStatus = isPaid === true ? "Successful" : "Not paid";
+
   let phoneNo = phoneNo1;
   if (phoneNo2) {
     phoneNo = phoneNo1 + "," + phoneNo2;
@@ -27,13 +37,16 @@ const OrderListContent = (props) => {
           Ordered at : <span>{formattedDate}</span>
         </h5>
         <h5>
-          Total price :<span> ₹ {totalPrice}</span>
+          Total price :<span> {simpleFormatPrice(totalPrice)}</span>
         </h5>
         <h5>
           Payment type : <span>{paymentMethod}</span>
         </h5>
         <h5>
-          Payment status : <span>{PaymentStatus}</span>
+          Payment status : <span>{paymentSyatus}</span>
+        </h5>
+        <h5>
+          Order status: <span>{orderStatus}</span>
         </h5>
       </div>
       <div className="address">
@@ -43,13 +56,23 @@ const OrderListContent = (props) => {
         <h5>Phone no</h5>
         <p>{phoneNo}</p>
       </div>
-      <div className="buttons">
-        <Link className="custom-button" to={`/orderlist/${_id}`}>
-          View products
-        </Link>
-        <button className="custom-button">Cancel</button>
-        <button className="custom-button">Pay online</button>
-      </div>
+      {orderStatus !== "Canceled" ? (
+        <div className="buttons">
+          <Link className="custom-button" to={`/orderlist/${_id}`}>
+            View products
+          </Link>
+          <button onClick={() => CancelOrder(_id)} className="custom-button">
+            Cancel
+          </button>
+          <button className="custom-button">Pay online</button>
+        </div>
+      ) : (
+        <div className="onlyBtn">
+          <Link className="btn" to={`/orderlist/${_id}`}>
+            View products
+          </Link>
+        </div>
+      )}
     </Wrapper>
   );
 };
@@ -66,6 +89,9 @@ const Wrapper = styled.div`
   }
   span {
     font-size: 1rem;
+  }
+  .onlyBtn {
+    margin: auto auto;
   }
   .buttons {
     margin: 1rem;

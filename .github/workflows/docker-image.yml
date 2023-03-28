@@ -20,5 +20,24 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Push Docker image
         run: docker push tanmoy037/furweb:${{ github.sha }}
+      - name: Update deployment.yaml with new image tag
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: false
+          tags: tanmoy037/furweb:${{ github.sha }},tanmoy037/furweb:latest
+        id: tag
+      - name: Checkout manifest repository
+        uses: actions/checkout@v2
+        with:
+          repository: Tanmoy037/Furniture-website_manifiest
+      - name: Update deployment.yaml file
+        run: |
+          sed -i "s/tanmoy037\/furweb:[^\\s]*/${{ steps.tag.outputs.digest }}/g" deployment.yaml
+          git config --global user.email tanmoysantra67@gmail.com
+          git config --global user.name Tanmoy037
+          git add deployment.yaml
+          git commit -m "Update deployment.yaml with new image tag"
+          git push
 
 

@@ -29,7 +29,10 @@ const CartTotals = () => {
             Place Order
           </Link>
         ) : (
-          <Link to="/login"> login </Link>
+          <Link className="btn" to="/login">
+            {" "}
+            login{" "}
+          </Link>
         )}
       </div>
     </Wrapper>

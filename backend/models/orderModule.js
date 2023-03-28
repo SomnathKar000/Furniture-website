@@ -69,6 +69,10 @@ const orderSchema = new mongoose.Schema({
     type: String,
     default: "cash",
   },
+  paymentSyatus: {
+    type: String,
+    default: "Not paid",
+  },
   shippingPrice: {
     type: Number,
     default: 74.76,
@@ -80,6 +84,10 @@ const orderSchema = new mongoose.Schema({
   paidAt: {
     type: Date,
     default: Date.now,
+  },
+  orderStatus: {
+    type: String,
+    default: "On the way",
   },
   isDelivered: {
     type: Boolean,

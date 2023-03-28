@@ -89,11 +89,28 @@ export const PaymentProvider = ({ children }) => {
     dispatch({ type: "GET_SINGLE_ORDER", payload: newData });
   };
 
+  // cancel the order
+  const CancelOrder = async (_id) => {
+    const token = localStorage.getItem("token");
+    try {
+      const responce = await axios.patch(`${host}/api/v1/orders/cancel-order`, {
+        token,
+        productId: _id,
+      });
+      GetAllOrderList();
+      console.log(responce.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     GetAllOrderList();
-  }, []);
+  }, [localStorage.getItem("token")]);
   return (
-    <PaymentContext.Provider value={{ ...state, payment, GetSingleOrder }}>
+    <PaymentContext.Provider
+      value={{ ...state, payment, GetSingleOrder, CancelOrder }}
+    >
       {children}
     </PaymentContext.Provider>
   );

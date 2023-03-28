@@ -30,7 +30,8 @@ jobs:
       - name: Checkout manifest repository
         uses: actions/checkout@v2
         with:
-          repository: Tanmoy037/Furniture-website_manifest
+          repository: https://github.com/Tanmoy037/Furniture-website_manifiest
+          ref: main
       - name: Update deployment.yml file
         run: |
           sed -i "s/tanmoy037\/furweb:[^\\s]*/${{ steps.tag.outputs.digest }}/g" deployment.yml

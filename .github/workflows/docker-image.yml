@@ -30,7 +30,7 @@ jobs:
       - name: Checkout manifest repository
         uses: actions/checkout@v2
         with:
-          repository: https://github.com/Tanmoy037/Furniture-website_manifiest
+          repository: Tanmoy037/Furniture-website_manifiest
           ref: main
       - name: Update deployment.yml file
         run: |

@@ -37,7 +37,7 @@ jobs:
         run: |
           git config --global user.email tanmoysantra67@gmail.com 
           git config --global user.name Tanmoy037
-          sed -i "s|tanmoy037/furweb:[^[:space:]]*|tanmoy037/furweb:${{ steps.tag.outputs.digest }}|g" deployment.yml
+          sed -i "s|tanmoy037/furweb:[^[:space:]]*|tanmoy037/furweb/${{ steps.tag.outputs.digest }}|g" deployment.yml
           git add deployment.yml
           git commit -m "Update deployment.yml with new image tag"
           git push origin main

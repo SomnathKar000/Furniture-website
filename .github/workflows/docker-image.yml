@@ -39,4 +39,5 @@ jobs:
           git config --global user.name Tanmoy037
           git add deployment.yml
           git commit -m "Update deployment.yml with new image tag"
-          git push
+           git push https://${{ secrets.MY_GITHUB_USERNAME }}:${{ secrets.MY_GITHUB_PASSWORD }}@github.com/Tanmoy037/Furniture-website_manifiest.git
+          

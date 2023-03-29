@@ -20,25 +20,24 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Push Docker image
         run: docker push tanmoy037/furweb:${{ github.sha }}
-      - name: Update deployment.yml with new image tag
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: false
-          tags: tanmoy037/furweb:${{ github.sha }},tanmoy037/furweb:latest
-        id: tag
-      - name: Checkout manifest repository
-        uses: actions/checkout@v2
-        with:
+
+  update-manifest:
+    runs-on: ubuntu-latest 
+    needs: ['build-and-push-Docker-image']
+    steps:
+      - uses: actions/checkout@v3
+        with:   
           repository: Tanmoy037/Furniture-website_manifiest
           ref: main
-          token : ${{ secrets.G_TOKEN }}
+          token: ${{ secrets.G_TOKEN }}
       - name: Update deployment.yml file
         run: |
           git config --global user.email tanmoysantra67@gmail.com 
           git config --global user.name Tanmoy037
-          sed -i "s|tanmoy037/furweb:[^[:space:]]*|tanmoy037/furweb/${{ steps.tag.outputs.digest }}|g" deployment.yml
+          new_tag=$(echo "${{ steps.tag.outputs.digest }}" | cut -d'/' -f2)
+          sed -i "s|tanmoy037/furweb:[^[:space:]]*|tanmoy037/furweb:${new_tag}|g" deployment.yml
           git add deployment.yml
           git commit -m "Update deployment.yml with new image tag"
           git push origin main
+
           

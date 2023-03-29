@@ -23,7 +23,7 @@ jobs:
 
   update-manifest:
     runs-on: ubuntu-latest 
-    needs: ['build-and-push']
+    needs: ['build']
     steps:
       - uses: actions/checkout@v3
         with:   
@@ -39,5 +39,3 @@ jobs:
           git add deployment.yml
           git commit -m "Update deployment.yml with new image tag"
           git push origin main
-
-          

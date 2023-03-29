@@ -42,7 +42,8 @@ jobs:
       - name: Update deployment.yml file
         run: |
           new_tag=$(echo "${{ steps.tag.outputs.digest }}" | cut -d'/' -f2)
-          sed -i "s|tanmoy037/furweb:[^[:space:]]*|tanmoy037/furweb:${new_tag}|g" deployment.yml
+          old_tag=$(grep 'tanmoy037/furweb:' deployment.yml | cut -d ':' -f3)
+          sed -i "s|tanmoy037/furweb:${old_tag}|tanmoy037/furweb:${new_tag}|g" deployment.yml
           git add deployment.yml
           git commit -m "Update deployment.yml with new image tag"
           git push origin main

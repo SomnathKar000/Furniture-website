@@ -26,7 +26,6 @@ jobs:
       - name: Push Docker image
         run: |
           docker push tanmoy037/furweb:${{ env.DOCKER_TAG }}
-          echo "DOCKER_TAG=${{ env.DOCKER_TAG }}" >> $GITHUB_ENV
 
   update-manifest:
     runs-on: ubuntu-latest 

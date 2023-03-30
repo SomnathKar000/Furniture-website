@@ -56,4 +56,3 @@ jobs:
           git add deployment.yml
           git commit -m "Update deployment.yml with new - ${new_tag}"
           git push origin main"
-```

@@ -7,16 +7,57 @@ on:
     branches: [ "main" ]
 
 env:
-  DOCKER_TAG: ${{ formatTime(now(), 'yyyyMMddhhmmss') }}
+  DOCKER_TAG: ${{ github.run_number }}-${{ github.sha }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/toolkit@v2 # Import actions/toolkit package
       - uses: actions/checkout@v2
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+      
+      - name: Define formatTime function
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            function formatTime(date, format) {
+              const dt = new Date(date);
+              let yyyy = dt.getFullYear();
+              let mm = dt.getMonth() + 1;
+              let dd = dt.getDate();
+              let hh = dt.getHours();
+              let mi = dt.getMinutes();
+              let ss = dt.getSeconds();
+
+              if (mm < 10) {
+                mm = '0' + mm;
+              }
+              if (dd < 10) {
+                dd = '0' + dd;
+              }
+              if (hh < 10) {
+                hh = '0' + hh;
+              }
+              if (mi < 10) {
+                mi = '0' + mi;
+              }
+              if (ss < 10) {
+                ss = '0' + ss;
+              }
+
+              if (format === 'yyyyMMddhhmmss') {
+                return `${yyyy}${mm}${dd}${hh}${mi}${ss}`;
+              }
+              return dt.toISOString();
+            }
+          
       - name: Build the Docker image
-        run: docker build -t tanmoy037/furweb:${{ env.DOCKER_TAG }} .
+        run: docker build -t tanmoy037/furweb:${{ formatTime(now(), 'yyyyMMddhhmmss') }} .
       
       - name: Log in to Docker Hub
         uses: docker/login-action@v1
@@ -35,7 +76,6 @@ jobs:
     env: 
       GITHUB_TOKEN: ${{ secrets.G_TOKEN}}
     steps:
-      - uses: actions/toolkit@v2 # Import actions/toolkit package
       - uses: actions/checkout@v2
         with:
           repository: Tanmoy037/Furniture-website_manifiest

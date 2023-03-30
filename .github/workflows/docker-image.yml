@@ -25,7 +25,7 @@ jobs:
 
       - name: Push Docker image
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}furweb:${{ env.DOCKER_TAG }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/furweb:${{ env.DOCKER_TAG }}
 
   update-manifest:
     runs-on: ubuntu-latest 

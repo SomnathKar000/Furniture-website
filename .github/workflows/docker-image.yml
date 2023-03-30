@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 env:
-  DOCKER_TAG: ${{ strftime('%Y%m%d%H%M%S', github.event.head_commit.timestamp) }}
+  DOCKER_TAG: ${{ github.sha.slice(0,7) }}
 
 jobs:
   build:

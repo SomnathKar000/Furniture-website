@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 env:
-  DOCKER_TAG: $(date -u +'%Y%m%d%H%M%S')
+  DOCKER_TAG: $(date +%s)
 
 jobs:
   build:

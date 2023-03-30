@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 env:
-  DOCKER_TAG: ${{ github.sha.slice(0,7) }}
+  DOCKER_TAG: $(date -u +'%Y%m%d%H%M%S')
 
 jobs:
   build:
@@ -54,5 +54,5 @@ jobs:
           new_tag=${{ env.DOCKER_TAG }}
           sed -i "s|tanmoy037/furweb:|tanmoy037/furweb:${new_tag}|" deployment.yml
           git add deployment.yml
-          git commit -m "Update deployment.yml with new - ${{ github.sha }}"
+          git commit -m "Update deployment.yml with new - ${new_tag}"
           git push origin main

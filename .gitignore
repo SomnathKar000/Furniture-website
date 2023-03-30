@@ -1,3 +1,18 @@
 # Local Netlify folder
 .netlify
 node_modules
+
+# Create a Docker Hub access token:
+
+# Go to the Docker Hub website and log in to your account.
+# Click on your profile icon and select "Account Settings".
+# Click on "Security" in the left-hand menu.
+# Under "Access Tokens", click "New Access Token".
+# Enter a name for the token and click "Create".
+# Copy the access token to a safe place.
+# Create a Kubernetes secret that contains the Docker Hub credentials:
+
+# Use the following command to create a Kubernetes secret called "dockerhub-secret" 
+
+
+# kubectl create secret docker-registry dockerhub-secret --docker-username=<user-name> --docker-password=<your-access-token> --docker-server=https://index.docker.io/v1/

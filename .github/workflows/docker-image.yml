@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 env:
-  DOCKER_TAG: ${{ github.sha.substring(0,8) }}
+  DOCKER_TAG: ${{ substr(github.sha,0,8) }}
 
 
 jobs:

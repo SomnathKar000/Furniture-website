@@ -1,4 +1,10 @@
 const payment_reducer = (state, action) => {
+  if (action.type === "GET_ALL_ORDERLISTS_START") {
+    return { ...state, get_all_order_loading: true };
+  }
+  if (action.type === "All_ORDER_LOADING_ERROR") {
+    return { ...state, get_all_order_error: true };
+  }
   if (action.type === "SINGLE_ORDER_LOADING_ERROR") {
     return { ...state, single_order_error: true };
   }
@@ -24,7 +30,12 @@ const payment_reducer = (state, action) => {
     data.map((Ditem) => {
       return updateImage(Ditem, products);
     });
-    return { ...state, order_list: data };
+    return {
+      ...state,
+      order_list: data,
+      get_all_order_error: false,
+      get_all_order_loading: false,
+    };
   }
   if (action.type === "GET_SINGLE_ORDER") {
     const data = { ...action.payload };
@@ -35,7 +46,6 @@ const payment_reducer = (state, action) => {
       single_order_error: false,
     };
   }
-  return { ...state };
 
   throw new Error(`No Matching "${action.type}" - action type`);
 };

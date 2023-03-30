@@ -1,16 +1,12 @@
 import reducer from "../reducers/payment_reducer";
-import {
-  useReducer,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { useReducer, createContext, useContext, useEffect } from "react";
 import axios from "axios";
 import { host } from "../utils/constants";
 
 const initialState = {
   order_list: [],
+  get_all_order_loading: false,
+  get_all_order_error: false,
   payment_loading: false,
   payment_error: false,
   single_order_loading: false,
@@ -25,6 +21,7 @@ export const PaymentProvider = ({ children }) => {
   const hostValue = window.location.hostname;
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  // create payment
   const payment = async (cart, userAddress, paymentMethod) => {
     let totalamount = 0;
     const items = cart.map(({ id, amount, price }) => {
@@ -48,8 +45,10 @@ export const PaymentProvider = ({ children }) => {
 
       if (paymentMethod !== "cash on delivery") {
         window.location = responce.data.url;
+        localStorage.removeItem("cart");
       } else {
         alert(responce.data.msg);
+        localStorage.removeItem("cart");
 
         return;
       }
@@ -58,12 +57,20 @@ export const PaymentProvider = ({ children }) => {
     }
   };
 
+  // Pay again for the user
+  const PayOnline = (items, address, totalPrice) => {
+    localStorage.getItem("token");
+    const hostValue = window.location.hostname;
+    console.log(items);
+  };
+
   // Get All order list
   const GetAllOrderList = async () => {
     const token = localStorage.getItem("token");
 
     if (token) {
       try {
+        dispatch({ type: "GET_ALL_ORDERLISTS_START" });
         const responce = await axios.post(`${host}/api/v1/orders `, {
           token,
           success: true,
@@ -74,6 +81,7 @@ export const PaymentProvider = ({ children }) => {
         dispatch({ type: "GET_ALL_LISTS", payload: { data, products } });
       } catch (error) {
         alert(error.responce.data.msg);
+        dispatch({ type: "All_ORDER_LOADING_ERROR" });
       }
     }
   };
@@ -109,7 +117,7 @@ export const PaymentProvider = ({ children }) => {
   }, [localStorage.getItem("token")]);
   return (
     <PaymentContext.Provider
-      value={{ ...state, payment, GetSingleOrder, CancelOrder }}
+      value={{ ...state, payment, GetSingleOrder, CancelOrder, PayOnline }}
     >
       {children}
     </PaymentContext.Provider>

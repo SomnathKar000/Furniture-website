@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 env:
-  DOCKER_TAG: latest$(date +%s)
+  DOCKER_TAG: tagname$(date +%s)
 
 jobs:
   build:

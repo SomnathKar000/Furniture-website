@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 env:
-  DOCKER_TAG: $(uuidgen)
+  DOCKER_TAG: latest
 
 jobs:
   build:

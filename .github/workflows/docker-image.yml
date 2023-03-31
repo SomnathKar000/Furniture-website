@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build the Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/furrweb:$DOCKER_TAG .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/furrweb:${{ env.DOCKER_TAG }} .
       
       - name: Log in to Docker Hub
         uses: docker/login-action@v1
@@ -25,7 +25,7 @@ jobs:
 
       - name: Push Docker image
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/furrweb:$DOCKER_TAG 
+          docker push ${{ secrets.DOCKER_USERNAME }}/furrweb:${{ env.DOCKER_TAG }}
 
   update-manifest:
     runs-on: ubuntu-latest 
@@ -49,9 +49,7 @@ jobs:
         run: echo "::set-output name=digest::$(docker inspect tanmoy037/furrweb:${{ env.DOCKER_TAG }} --format={{.RepoDigests}} | cut -d '@' -f2)"
 
       - name: Update deployment.yml file
-        run: |
-          new_tag=${{ env.DOCKER_TAG }}
-          sed -i "s|tanmoy037/furweb:|tanmoy037/furrweb:${new_tag}|" deployment.yml
+          sed -i "s|tanmoy037/furweb:|tanmoy037/furrweb:${{ env.DOCKER_TAG }}|" deployment.yml
           git add deployment.yml
           git commit -m "Update deployment.yml with new - ${new_tag}"
           git push origin main"

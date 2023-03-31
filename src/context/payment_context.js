@@ -18,51 +18,8 @@ const formatPrice = (price) => price * 0.14;
 export const PaymentContext = createContext();
 
 export const PaymentProvider = ({ children }) => {
-  const hostValue = window.location.hostname;
+  const hostValue = window.location.host;
   const [state, dispatch] = useReducer(reducer, initialState);
-
-  // create payment
-  const payment = async (cart, userAddress, paymentMethod) => {
-    let totalamount = 0;
-    const items = cart.map(({ id, amount, price }) => {
-      totalamount += formatPrice(price);
-      return {
-        productId: id,
-        quantity: amount,
-        price: formatPrice(price),
-      };
-    });
-    try {
-      const token = localStorage.getItem("token");
-      const responce = await axios.post(`${host}/api/v1/payment`, {
-        items,
-        userAddress,
-        paymentMethod,
-        token,
-        totalamount,
-        hostValue,
-      });
-
-      if (paymentMethod !== "cash on delivery") {
-        window.location = responce.data.url;
-        localStorage.removeItem("cart");
-      } else {
-        alert(responce.data.msg);
-        localStorage.removeItem("cart");
-
-        return;
-      }
-    } catch (error) {
-      alert(error.responce.data.msg);
-    }
-  };
-
-  // Pay again for the user
-  const PayOnline = (items, address, totalPrice) => {
-    localStorage.getItem("token");
-    const hostValue = window.location.hostname;
-    console.log(items);
-  };
 
   // Get All order list
   const GetAllOrderList = async () => {
@@ -83,6 +40,69 @@ export const PaymentProvider = ({ children }) => {
         alert(error.responce.data.msg);
         dispatch({ type: "All_ORDER_LOADING_ERROR" });
       }
+    }
+  };
+
+  // create payment
+  const payment = async (cart, userAddress, paymentMethod, total_amount) => {
+    let totalamount = total_amount * 0.14;
+
+    const items = cart.map(({ id, amount, price }) => {
+      return {
+        productId: id,
+        quantity: amount,
+        price: formatPrice(price),
+      };
+    });
+    console.log("Ok" + totalamount);
+    try {
+      dispatch({ type: "PAYMENT_LOADING_START" });
+      const token = localStorage.getItem("token");
+      const responce = await axios.post(`${host}/api/v1/payment`, {
+        items,
+        userAddress,
+        paymentMethod,
+        token,
+        totalamount,
+        hostValue,
+      });
+
+      if (paymentMethod !== "cash on delivery") {
+        dispatch({ type: "PAYMENET_LOADING_DONE" });
+        window.location = responce.data.url;
+        localStorage.removeItem("cart");
+      } else {
+        dispatch({ type: "PAYMENET_LOADING_DONE" });
+        window.location.reload();
+        localStorage.removeItem("cart");
+        alert(responce.data.msg);
+      }
+    } catch (error) {
+      alert(error.responce.data.msg);
+    }
+  };
+
+  // Pay again for the user
+  const PayOnline = async (items, totalPrice, _id) => {
+    const token = localStorage.getItem("token");
+    const hostValue = window.location.host;
+    try {
+      dispatch({ type: "PAYMENT_LOADING_START" });
+      const responce = await axios.post(
+        "http://localhost:5000/api/v1/payment/create-checkout-session",
+        {
+          items,
+          token,
+          hostValue,
+          totalamount: totalPrice,
+          _id,
+        }
+      );
+      dispatch({ type: "PAYMENET_LOADING_DONE" });
+
+      window.location = responce.data.url;
+    } catch (error) {
+      console.log(error);
     }
   };
 

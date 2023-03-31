@@ -1,4 +1,10 @@
 const payment_reducer = (state, action) => {
+  if (action.type === "PAYMENET_LOADING_DONE") {
+    return { ...state, payment_loading: false };
+  }
+  if (action.type === "PAYMENT_LOADING_START") {
+    return { ...state, payment_loading: true };
+  }
   if (action.type === "GET_ALL_ORDERLISTS_START") {
     return { ...state, get_all_order_loading: true };
   }

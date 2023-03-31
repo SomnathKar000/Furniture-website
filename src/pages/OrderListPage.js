@@ -7,8 +7,9 @@ import { Link } from "react-router-dom";
 import Loading from "../components/Loading";
 
 const OrderListPage = () => {
-  const { order_list, get_all_order_loading } = usePaymentContext();
-  if (get_all_order_loading) {
+  const { order_list, get_all_order_loading, payment_loading } =
+    usePaymentContext();
+  if (get_all_order_loading || payment_loading) {
     return <Loading />;
   }
   if (order_list.length === 0) {

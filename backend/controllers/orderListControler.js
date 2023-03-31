@@ -85,9 +85,7 @@ const getAllOrderList = async (req, res) => {
     await Promise.all(
       responce.map(async (order) => {
         if (!order.upToDate) {
-          if (order.paymentId) {
-            await checkPayment(order.paymentId);
-          } else {
+          if (order.paymentId !== null && order.paymentId !== "cash") {
             await checkPayment(order.paymentId);
           }
           return order;

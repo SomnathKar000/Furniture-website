@@ -75,7 +75,7 @@ const orderSchema = new mongoose.Schema({
   },
   shippingPrice: {
     type: Number,
-    default: 74.76,
+    default: 75,
   },
   isPaid: {
     type: Boolean,

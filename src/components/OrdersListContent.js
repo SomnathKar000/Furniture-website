@@ -71,7 +71,7 @@ const OrderListContent = (props) => {
           {!status && (
             <button
               onClick={() => {
-                PayOnline(items, shippingAddress, totalPrice);
+                PayOnline(items, totalPrice, _id);
               }}
               className="btn"
             >

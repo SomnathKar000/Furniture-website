@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from "react";
 
 import styled from "styled-components";
-import { loadStripe } from "@stripe/stripe-js";
-// import {
-//   CardElement,
-//   useStripe,
-//   Elements,
-//   useElements,
-// } from "@stripe/react-stripe-js";
-import axios from "axios";
+import Loading from "./Loading";
 import { useCartContext } from "../context/cart_context";
 import { usePaymentContext } from "../context/payment_context";
 import { formatPrice } from "../utils/helpers";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 // import { useHistory } from "react-router-dom";
 
 // const promice = loadStripe(process.env.STRIPE_PUBLIC_KEY);
@@ -20,7 +13,7 @@ import { useHistory } from "react-router-dom";
 const CheckoutForm = () => {
   const history = useHistory();
   const { cart, shipping_fee, total_amount, clearCart } = useCartContext();
-  const { checkPaymentStatus, payment } = usePaymentContext();
+  const { checkPaymentStatus, payment, payment_loading } = usePaymentContext();
 
   const [userAddress, setUserAddress] = useState({
     fullName: "",
@@ -48,7 +41,7 @@ const CheckoutForm = () => {
     setUserAddress({ ...userAddress, [e.target.name]: e.target.value });
   const handleSubmit = (e) => {
     let paymentMethod = e.target.name;
-    payment(cart, userAddress, paymentMethod);
+    payment(cart, userAddress, paymentMethod, total_amount);
   };
   const getLocation = async () => {
     const getIPInfo = async () => {
@@ -65,6 +58,9 @@ const CheckoutForm = () => {
     };
     getIPInfo();
   };
+  if (payment_loading) {
+    return <Loading />;
+  }
 
   return (
     <div>
@@ -217,14 +213,15 @@ const CheckoutForm = () => {
           />
         </div>
         <div className="order-btn">
-          <button
+          <Link
+            to="/orderlist"
             name="cash on delivery"
             className="btn"
             onClick={handleSubmit}
             type="button"
           >
             cash on delivery
-          </button>
+          </Link>
           <span>or</span>
           <button
             name="online payment"

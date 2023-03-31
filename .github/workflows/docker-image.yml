@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 env:
-  DOCKER_TAG: $(date +%s)
+  DOCKER_TAG: ${{ github.run_number }}
 
 jobs:
   build:
@@ -51,7 +51,7 @@ jobs:
       - name: Update deployment.yml file
         run: |
           new_tag=${{ env.DOCKER_TAG }}
-          sed -i 's/tanmoy037\/furrweb:.*/tanmoy037\/furrweb:$DOCKER_TAG/' deployment.yml
+          sed -i "s/tanmoy037\/furrweb:.*/tanmoy037\/furrweb:${new_tag}/" deployment.yml
           git add deployment.yml
           git commit -m "Update deployment.yml with new - ${new_tag}"
-          git push origin main"
+          git push origin main

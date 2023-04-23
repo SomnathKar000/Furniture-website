@@ -27,6 +27,10 @@ const initialState = {
 const ProductsContext = React.createContext();
 
 export const ProductsProvider = ({ children }) => {
+  if (process.env.REACT_APP_PROJECT === "production") {
+    let host = window.location.origin;
+    url = `${host}/api/v1/store-products`;
+  }
   const [state, dispatch] = useReducer(reducer, initialState);
   const openSidebar = () => {
     dispatch({ type: SIDEBAR_OPEN });

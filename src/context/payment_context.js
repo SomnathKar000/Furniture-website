@@ -19,6 +19,9 @@ export const PaymentContext = createContext();
 
 export const PaymentProvider = ({ children }) => {
   const hostValue = window.location.host;
+  if (process.env.REACT_APP_PROJECT === "production") {
+    host = window.location.origin;
+  }
   const [state, dispatch] = useReducer(reducer, initialState);
 
   // Get All order list

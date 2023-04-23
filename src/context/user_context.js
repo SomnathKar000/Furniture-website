@@ -20,6 +20,9 @@ const initialState = {
   user: {},
 };
 export const UserProvider = ({ children }) => {
+  if (process.env.REACT_APP_PROJECT === "production") {
+    host = window.location.origin;
+  }
   const [state, dispatch] = useReducer(reducer, initialState);
   const getUser = async () => {
     const token = localStorage.getItem("token");
@@ -35,6 +38,7 @@ export const UserProvider = ({ children }) => {
         localStorage.removeItem("token");
       }
     } else {
+      localStorage.removeItem("token");
       console.log("token does not exsist");
     }
   };

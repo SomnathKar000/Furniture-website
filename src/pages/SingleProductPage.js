@@ -15,6 +15,10 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const SingleProductPage = () => {
+  if (process.env.REACT_APP_PROJECT === "production") {
+    let host = window.location.origin;
+    url = `${host}/api/v1/store-single-products?id=`;
+  }
   const { id } = useParams();
   const {
     fetchSingleProduct,

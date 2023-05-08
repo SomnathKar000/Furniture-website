@@ -5,7 +5,7 @@ import { usePaymentContext } from "../context/payment_context";
 import { simpleFormatPrice } from "../utils/helpers";
 
 const OrderListContent = (props) => {
-  const { CancelOrder } = usePaymentContext();
+  const { CancelOrder, PayOnline } = usePaymentContext();
   const {
     paidAt,
     paymentMethod,
@@ -13,11 +13,15 @@ const OrderListContent = (props) => {
     shippingAddress,
     _id,
     orderStatus,
-    paymentSyatus,
+    paymentStatus,
+    isPaid,
+    recievePayment,
+    items,
   } = props;
 
   const newDate = new Date(paidAt);
   const formattedDate = newDate.toLocaleString();
+  let status = isPaid && paymentStatus == "Success";
 
   const { fullName, phoneNo1, phoneNo2, landmark, area, city, state, pincode } =
     shippingAddress;
@@ -43,7 +47,7 @@ const OrderListContent = (props) => {
           Payment type : <span>{paymentMethod}</span>
         </h5>
         <h5>
-          Payment status : <span>{paymentSyatus}</span>
+          Payment status : <span>{paymentStatus}</span>
         </h5>
         <h5>
           Order status: <span>{orderStatus}</span>
@@ -58,16 +62,25 @@ const OrderListContent = (props) => {
       </div>
       {orderStatus !== "Canceled" ? (
         <div className="buttons">
-          <Link className="custom-button" to={`/orderlist/${_id}`}>
+          <Link className="btn" to={`/orderlist/${_id}`}>
             View products
           </Link>
-          <button onClick={() => CancelOrder(_id)} className="custom-button">
+          <button onClick={() => CancelOrder(_id)} className="btn">
             Cancel
           </button>
-          <button className="custom-button">Pay online</button>
+          {!status && (
+            <button
+              onClick={() => {
+                PayOnline(items, totalPrice, _id);
+              }}
+              className="btn"
+            >
+              Pay online
+            </button>
+          )}
         </div>
       ) : (
-        <div className="onlyBtn">
+        <div className="buttons">
           <Link className="btn" to={`/orderlist/${_id}`}>
             View products
           </Link>
@@ -95,9 +108,10 @@ const Wrapper = styled.div`
   }
   .buttons {
     margin: 1rem;
-    display: grid;
-    grid-trmplate-column: 1fr;
-    grid-gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
   }
   .address {
     margin: 1rem;
@@ -128,9 +142,11 @@ const Wrapper = styled.div`
     display: grid;
     grid-template-columns: 2fr 2fr;
     .buttons {
-      margin: 0.5rem;
-      display: grid;
-      grid-trmplate-column: 1fr 1fr 1fr;
+      margin: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      justify-content: center;
     }
   }
   @media (max-width: 452px) {

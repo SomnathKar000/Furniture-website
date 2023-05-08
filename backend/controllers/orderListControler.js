@@ -15,8 +15,8 @@ const createPaymentIntent = async (amount, currency) => {
 const checkPaymentStatus = async (req, res) => {
   const { paymentId } = req.body; // assuming the payment ID is passed in the URL params
 
-  const paymentIntent = await createPaymentIntent(100, "inr");
-  res.send(paymentIntent);
+  // const paymentIntent = await createPaymentIntent(100, "inr");
+  // res.send(paymentIntent);
   // try {
   //   const paymentIntent = await stripe.paymentIntents.retrieve(paymentId);
   //   const paymentStatus = paymentIntent.status;
@@ -45,12 +45,63 @@ const checkPaymentStatus = async (req, res) => {
   }
 };
 
-const getAllOrderList = async (req, res) => {
-  const userId = req.user.id;
-  const data = await Order.find({ userId: userId });
+const checkPayment = async (id) => {
+  const session = await stripe.checkout.sessions.retrieve(id);
 
-  res.status(200).send({ success: true, data, products });
+  if (session.payment_intent) {
+    const payment = await stripe.paymentIntents.retrieve(
+      session.payment_intent
+    );
+
+    if (payment.status === "succeeded") {
+      await Order.findOneAndUpdate(
+        { paymentId: id },
+        { upToDate: true, isPaid: true, paymentStatus: "Success" }
+      );
+    } else if (payment.status === "requires_payment_method") {
+      await Order.findOneAndUpdate(
+        { paymentId: id },
+        { upToDate: true, isPaid: false, paymentStatus: "Payment required" }
+      );
+    } else {
+      await Order.findOneAndUpdate(
+        { paymentId: id },
+        { upToDate: true, isPaid: false, paymentStatus: "Payment failed" }
+      );
+    }
+  } else {
+    await Order.findOneAndUpdate(
+      { paymentId: id },
+      { upToDate: true, isPaid: false, paymentStatus: "Payment required" }
+    );
+  }
 };
+
+const getAllOrderList = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const responce = await Order.find({ userId: userId });
+
+    await Promise.all(
+      responce.map(async (order) => {
+        if (!order.upToDate) {
+          if (order.paymentId !== null && order.paymentId !== "cash") {
+            await checkPayment(order.paymentId);
+          }
+          return order;
+        } else {
+          return order;
+        }
+      })
+    );
+    const data = await Order.find({ userId: userId });
+    res.status(200).send({ success: true, data, products });
+  } catch (error) {
+    console.log(error);
+    res.status(404).send("some error");
+  }
+};
+
 const getSingleOrderList = async (req, res) => {
   const userId = req.user.id;
   const { productId } = req.body;

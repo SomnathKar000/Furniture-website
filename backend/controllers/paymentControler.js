@@ -45,8 +45,8 @@ const fillOrderOetails = async (req, res) => {
         };
       }),
       shipping_options: [{ shipping_rate: shippingRate.id }],
-      success_url: `http://${hostValue}:3000/success`,
-      cancel_url: `http://${hostValue}:3000/error`,
+      success_url: `http://${hostValue}/success`,
+      cancel_url: `http://${hostValue}/error`,
     });
     console.log(session.url, session.id, "Ok");
     paymentId = session.id;
@@ -100,7 +100,7 @@ const createPayment = async (req, res) => {
     fixed_amount: { amount: 7500, currency: "inr" },
   });
 
-  const { items, hostValue, totalamount } = req.body;
+  const { items, hostValue, totalamount, _id } = req.body;
   let paymentId = "cash";
   let url = "";
   console.log("session");
@@ -124,16 +124,19 @@ const createPayment = async (req, res) => {
         };
       }),
       shipping_options: [{ shipping_rate: shippingRate.id }],
-      success_url: `http://${hostValue}:3000/success`,
-      cancel_url: `http://${hostValue}:3000/error`,
+      success_url: `http://${hostValue}/success`,
+      cancel_url: `http://${hostValue}/error`,
     });
     console.log("after session");
     console.log(session.url, session.id, "Ok");
     paymentId = session.id;
     url = session.url;
-    console.log(session);
+    await Order.findByIdAndUpdate(_id, {
+      paymentId: paymentId,
+      upToDate: false,
+    });
 
-    res.status(200).json({ url: session.url, paymentId: paymentId });
+    res.status(200).json({ success: true, url: session.url, paymentId });
   } catch (error) {
     console.log(error);
     res.status(500).send("some error");

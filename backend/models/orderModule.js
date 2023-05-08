@@ -67,15 +67,15 @@ const orderSchema = new mongoose.Schema({
   },
   paymentId: {
     type: String,
-    default: "cash",
+    default: null,
   },
-  paymentSyatus: {
+  paymentStatus: {
     type: String,
     default: "Not paid",
   },
   shippingPrice: {
     type: Number,
-    default: 74.76,
+    default: 75,
   },
   isPaid: {
     type: Boolean,
@@ -95,6 +95,14 @@ const orderSchema = new mongoose.Schema({
   },
   deliveredAt: {
     type: Date,
+  },
+  recievePayment: {
+    type: String,
+    default: "No",
+  },
+  upToDate: {
+    type: Boolean,
+    default: false,
   },
 });
 

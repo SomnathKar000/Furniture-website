@@ -4,9 +4,14 @@ import PageHero from "../components/PageHero";
 import { usePaymentContext } from "../context/payment_context";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import Loading from "../components/Loading";
 
 const OrderListPage = () => {
-  const { order_list } = usePaymentContext();
+  const { order_list, get_all_order_loading, payment_loading } =
+    usePaymentContext();
+  if (get_all_order_loading || payment_loading) {
+    return <Loading />;
+  }
   if (order_list.length === 0) {
     return (
       <Wrapper className="page-100">
@@ -19,6 +24,7 @@ const OrderListPage = () => {
       </Wrapper>
     );
   }
+
   return (
     <Wrapper>
       <PageHero title={"Orders"} />

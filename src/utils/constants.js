@@ -1,6 +1,6 @@
 import React from "react";
 import { GiCompass, GiDiamondHard, GiStabbedNote } from "react-icons/gi";
-export const links = [
+const links = [
   {
     id: 1,
     text: "home",
@@ -18,7 +18,7 @@ export const links = [
   },
 ];
 
-export const services = [
+const services = [
   {
     id: 1,
     icon: <GiCompass />,
@@ -47,6 +47,20 @@ let portValue = 5000;
 if (window.location.port !== "3000") {
   portValue = 30002;
 }
-export let products_url = `http://${hostname}:${portValue}/api/v1/store-products`;
-export let single_product_url = `http://${hostname}:${portValue}/api/v1/store-single-products?id=`;
-export let host = `http://${hostname}:${portValue}`;
+let host = `http://${hostname}:${portValue}`;
+let products_url = `http://${hostname}:${portValue}/api/v1/store-products`;
+let single_product_url = `http://${hostname}:${portValue}/api/v1/store-single-products?id=`;
+
+if ((process.env.REACT_APP_PROJECT = "production")) {
+  host = window.location.origin;
+  products_url = `${host}/api/v1/store-products`;
+  single_product_url = `${host}/api/v1/store-single-products?id=`;
+}
+
+export default {
+  links,
+  services,
+  host,
+  products_url,
+  single_product_url,
+};

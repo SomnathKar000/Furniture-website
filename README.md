@@ -1,4 +1,4 @@
-﻿# Welcome everyone this our open-source furniture-website.
+﻿# Welcome everyone to our open-source furniture website!
 ![Screenshot (127)](https://user-images.githubusercontent.com/108757431/224565249-eaed0360-eac0-4fcb-b3b2-bef3d466f419.png)
 ![Screenshot (129)](https://user-images.githubusercontent.com/108757431/224565290-1e91dab1-0c8f-4684-a316-95c31fc2fff1.png)
 ![Screenshot from 2023-03-28 23-24-01](https://user-images.githubusercontent.com/108757431/228326527-5a3e2645-3088-46b7-b605-4de0c54260b6.png)
@@ -7,7 +7,7 @@
 
 
 
-**To run this website you need to do the following tasks:**
+**To run this website, please follow these steps:**
 
 1. Install the required dependencies by running the following command in the root directory of the project:
 
@@ -32,14 +32,9 @@
 5. Change the directory from 'backend' to previous directory:
 
 * cd ..
-
-
-6. Install `nodemon` again as a development dependency using the following command:
-
-* npm install nodemon --save-dev 
-
-
-7. Start both the frontend and backend servers using the following command in the root directory of the project:
+ 
+ 
+6. Start both the frontend and backend servers using the following command in the root directory of the project:
 
 * npm run both 
 

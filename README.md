@@ -11,30 +11,25 @@
 
 1. Install the required dependencies by running the following command in the root directory of the project:
 
-* npm install 
-
-
-2. Install additional dependencies by running the following command in the root directory of the project:
-
 * npm i 
 
 
-3. Change the directory to `backend` using the following command:
+2. Change the directory to `backend` using the following command:
 
 * cd backend/ 
 
 
-4. Install the required dependencies for the backend by running the following command:
+3. Install the required dependencies for the backend by running the following command:
 
 * npm i 
 
 
-5. Change the directory from 'backend' to previous directory:
+4. Change the directory from 'backend' to previous directory:
 
 * cd ..
  
  
-6. Start both the frontend and backend servers using the following command in the root directory of the project:
+5. Start both the frontend and backend servers using the following command in the root directory of the project:
 
 * npm run both 
 

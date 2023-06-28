@@ -1,12 +1,8 @@
 require("dotenv").config();
 require("express-async-errors");
 
-// const asyncErrors = require("express-async-errors");
-
 const cors = require("cors");
 const express = require("express");
-const path = require("path");
-const { readFileSync, writeFileSync } = require("fs");
 const app = express();
 
 const authRoutes = require("./routes/auth");
@@ -29,42 +25,15 @@ app.use("/api/v1/user", authRoutes);
 app.use("/api/v1", productdRoute);
 app.use("/api/v1/orders", orderListRoute);
 
-// app.use(asyncErrors());
-
 // error handler
 app.use(errorMiddleware);
 app.use(notfoundMiddleware);
 
-const dirName = path.dirname(__dirname);
-const fileName = path.join(dirName, "/src/utils/constants.js");
-const content = readFileSync(fileName, "utf-8");
-const reactPort = content.split("// Split")[1].split("=")[1].slice(1, 5);
-
 const start = async () => {
   try {
-    // await connectDb(process.env.DB_URL);
-    await connectDb(
-      "mongodb+srv://Somnath000:som007007@nodeexpressprojects.c4mduyu.mongodb.net/furniture-store?retryWrites=true&w=majority"
-    );
-    const server = app.listen(port, () => {
-      // My port value
-      const newPortValue = server.address().port;
+    await connectDb(process.env.REACT_APP_DB_URL);
 
-      // // Updating the port value in frontend
-      if (Number(reactPort) !== newPortValue) {
-        const newContent = content.replace(
-          /let portValue = \d+/g,
-          `let portValue = ${newPortValue}`
-        );
-
-        writeFileSync(fileName, newContent);
-      }
-      console.log(fileName);
-      console.log(
-        "New port value " + newPortValue + ", Frontend port value " + reactPort
-      );
-      console.log(`Server listening on port ${port}`);
-    });
+    app.listen(port, () => console.log(`Server listening on port ${port}`));
   } catch (error) {
     console.log(error);
   }

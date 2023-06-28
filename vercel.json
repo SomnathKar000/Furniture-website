@@ -20,15 +20,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/build/$1"
+      "dest": "/build/index.html"
     }
-  ],
-  "env": {
-    "REACT_APP_BACKEND_PORT": "5000",
-    "JWTSECRET": "amiSomnath",
-    "REACT_APP_STRIPE_PUBLIC_KEY": "pk_test_51MdZfRSH3GkL6hjynE5OJL0hJu16h7RWhnrpTdUfDodXU7AAdNWg3DbtEdqiNKXh9g4ZIP6nlwfzWrdFPnasnsXg00M3jF4M3Q",
-    "REACT_APP_STRIPE_PRIVATE_KEY": "sk_test_51MdZfRSH3GkL6hjyIHPzefJK8bVV3zBdI9pg23vZbkfY7LTofCCQ7DcpQv58S34lu8Wlh3tLRDi0iBkHxXIjocDI00ywJ9PxM1",
-    "DB_URL": "mongodb+srv://Somnath000:som007007@nodeexpressprojects.c4mduyu.mongodb.net/furniture-store?retryWrites=true&w=majority",
-    "REACT_APP_SERVER_URL": "http://localhost:5000/"
-  }
+  ]
 }

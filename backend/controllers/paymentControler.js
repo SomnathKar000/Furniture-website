@@ -52,7 +52,7 @@ const fillOrderOetails = async (req, res) => {
     paymentId = session.id;
     url = session.url;
   }
-  order = await Order.create({
+  let order = await Order.create({
     userId: req.user.id,
     items: items.map(({ productId, price, quantity }) => ({
       productId,

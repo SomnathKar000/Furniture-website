@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useReducer } from "react";
+import React, { useContext, useEffect, useReducer } from "react";
 import {
   LOGOUT_USER,
   LOGIN_USER,
@@ -83,10 +83,6 @@ export const UserProvider = ({ children }) => {
     localStorage.removeItem("token");
     dispatch({ type: LOGOUT_USER });
   };
-
-  // const payment = () => {
-  //   dispatch({ type: "payment" });
-  // };
 
   useEffect(() => {
     getUser();

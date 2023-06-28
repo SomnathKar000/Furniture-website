@@ -47,20 +47,9 @@ let portValue = 5000;
 if (window.location.port !== "3000") {
   portValue = 30002;
 }
-export let host = `http://${hostname}:${portValue}`;
-export let products_url = `http://${hostname}:${portValue}/api/v1/store-products`;
-export let single_product_url = `http://${hostname}:${portValue}/api/v1/store-single-products?id=`;
-
-// if ((process.env.REACT_APP_PROJECT = "production")) {
-//   host = window.location.origin;
-//   products_url = `${host}/api/v1/store-products`;
-//   single_product_url = `${host}/api/v1/store-single-products?id=`;
-// }
-
-// export default {
-//   links,
-//   services,
-//   host,
-//   products_url,
-//   single_product_url,
-// };
+export let host =
+  process.env.REACT_APP_PROJECT === "production"
+    ? window.location.origin
+    : `http://${hostname}:${portValue}`;
+export let products_url = `${host}/api/v1/store-products`;
+export let single_product_url = `${host}/api/v1/store-single-products?id=`;

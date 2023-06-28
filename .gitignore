@@ -1,6 +1,7 @@
 # Local Netlify folder
 .netlify
 node_modules
+.env
 
 # Create a Docker Hub access token:
 

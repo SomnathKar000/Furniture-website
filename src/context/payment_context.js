@@ -89,7 +89,7 @@ export const PaymentProvider = ({ children }) => {
     try {
       dispatch({ type: "PAYMENT_LOADING_START" });
       const responce = await axios.post(
-        "http://localhost:5000/api/v1/payment/create-checkout-session",
+        `${host}/api/v1/payment/create-checkout-session`,
         {
           items,
           token,
